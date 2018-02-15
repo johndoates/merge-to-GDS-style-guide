@@ -1,0 +1,14 @@
+{
+  "manifest_version": 2,
+ 
+  "name": "Insert DWP style guide into GOV.UK style guide",
+  "version": "0.1.0",
+  "description": "John trying to run before he can walk.",
+ 
+  "content_scripts": [{
+  	"css": ["styles.css"],
+    "js": ["content.js"],
+    "matches": ["https://www.gov.uk/guidance/style-guide/a-to-z-of-gov-uk-style"]
+  }]
+ 
+}
