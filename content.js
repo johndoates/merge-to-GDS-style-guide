@@ -15,32 +15,19 @@ for (i = 0; i < wordsLen; i++) {
 
 var initial = words[i][0].charAt(0);
 
-// Create class
-var giveclass = document.createElement("div");
-giveclass.setAttribute("class", "js-subsection-body body-content-wrapper");
+var entry = document.createElement("div");
+entry.innerHTML = "<h3>" + words[i][0] + "</h3>" + "<p>" + words[i][1] + "</p>";
 
-// Create heading based on array item
-var heading = document.createElement("h3");
-giveclass.appendChild(heading);
-var headingnode = document.createTextNode(words[i][0]);
-giveclass.appendChild(headingnode);
+// Set colour - could I use CSS here?
+entry.style.color = "red";
 
-//Add linebreak
-var br = document.createElement('br');
-giveclass.appendChild(br);
-
-// Create text based on array item
-var text = document.createElement("p");
-var textnode = document.createTextNode(words[i][1]);
-text.appendChild(textnode);
-
-// Combine heading and text
-giveclass.appendChild(text);
+// Hide behind reveal
+entry.setAttribute("class", "js-subsection-body body-content-wrapper");
 
 // Insert heading and text after the reference id - note it's appearing in reverse alphabetical order
 var reference = document.getElementById(initial);
 var parent = reference.parentNode;
-parent.insertBefore(giveclass, reference.nextSibling);
+parent.insertBefore(entry, reference.nextSibling);
 
 //End loop
 
