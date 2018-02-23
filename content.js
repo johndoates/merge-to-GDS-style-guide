@@ -76,22 +76,21 @@ var currentEntry = currentTermsList[currentTermCounter].innerHTML;
 var startofEntry = currentEntry.slice(0,3);
 if (startofEntry = "the ") {var currentEntry = currentEntry.replace("the ", "")};
 
-//Get lower case versions of current and new entries, to compare later
-var lowercaseCurrent = currentEntry.toString().toLowerCase();
-var newEntry = newTerms[newTermCounter];
-var lowercaseNew = newEntry.toString().toLowerCase();
+	//Get lower case versions of new entry, to compare later
+	var newEntry = newTerms[newTermCounter];
+	var lowercaseNew = newEntry.toString().toLowerCase();
 
-//Create text of the new entry for the style guide
-var entryText = document.createElement("div");
-entryText.innerHTML = "<h3>" + newTerms[newTermCounter][0] + "</h3>" + "<p>" + newTerms[newTermCounter][1] + "</p>";
-entryText.style.color = "red";
+	//Create text of the new entry for the style guide
+	var entryText = document.createElement("div");
+	entryText.innerHTML = "<h3>" + newTerms[newTermCounter][0] + "</h3>" + "<p>" + newTerms[newTermCounter][1] + "</p>";
+	entryText.style.color = "red";
 
-// Insert new entry if appropriate
-if (lowercaseNew < lowercaseCurrent) {
-var parent = currentTermsList[currentTermCounter].parentNode;
-parent.insertBefore(entryText, currentTermsList[currentTermCounter]);
-newTermCounter++;
-}
+	// Insert new entry if appropriate
+	if (lowercaseNew < currentEntry.toLowerCase()) {
+		var parent = currentTermsList[currentTermCounter].parentNode;
+		parent.insertBefore(entryText, currentTermsList[currentTermCounter]);
+		newTermCounter++;
+	}
 
 //End currentTermCounter loop
 }
