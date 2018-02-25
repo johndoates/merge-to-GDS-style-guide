@@ -61,7 +61,8 @@ var newTerms = [
 ];
 
 //Get a list of all the H3s (current terms)
-var currentTermsList = document.getElementsByTagName('H3');
+var currentTermsList = document.querySelectorAll('h2, h3');
+console.log(currentTermsList);
 
 //Set up variable for cycling through new terms
 var newTermCounter = 0;
@@ -70,17 +71,30 @@ var newTermCounter = 0;
 for (var currentTermCounter = 0; currentTermCounter < currentTermsList.length; currentTermCounter++) {
 
 //Get the title of the current entry we're looking at
-var currentEntry = currentTermsList[currentTermCounter].innerHTML;
+	if (currentTermsList[currentTermCounter].id.length == 1) {
+		var currentEntry = currentTermsList[currentTermCounter].id;
+	}
+	else {
+		var currentEntry = currentTermsList[currentTermCounter].innerHTML;
+	}
 
-//Get rid of 'the' from the start of current entry
-var startofEntry = currentEntry.slice(0,3);
-if (startofEntry = "the ") {var currentEntry = currentEntry.replace("the ", "")};
+	//Get rid of 'the' from the start of current entry
+	var startofEntry = currentEntry.slice(0,3);
+	if (startofEntry = "the ") {
+		var currentEntry = currentEntry.replace("the ", "")
+	}
+
+	// console.log("length= " + currentTermsList[currentTermCounter].innerHTML.length);
+	// console.log("currentEntry= " + currentEntry);
 
 	//Get lower case versions of new entry, to compare later
-	var newEntry = newTerms[newTermCounter];
+	var newEntry = newTerms[newTermCounter][0];
+	// console.log(newEntry);
 	var lowercaseNew = newEntry.toString().toLowerCase();
 
-	//Create text of the new entry for the style guide
+	// console.log(lowercaseNew);
+
+	//Create text of the new entry for the style guide - make this a function and move?
 	var entryText = document.createElement("div");
 	entryText.innerHTML = "<h3>" + newTerms[newTermCounter][0] + "</h3>" + "<p>" + newTerms[newTermCounter][1] + "</p>";
 	entryText.style.color = "red";
@@ -90,6 +104,8 @@ if (startofEntry = "the ") {var currentEntry = currentEntry.replace("the ", "")}
 		var parent = currentTermsList[currentTermCounter].parentNode;
 		parent.insertBefore(entryText, currentTermsList[currentTermCounter]);
 		newTermCounter++;
+		//Set up to check if there should be two new terms in a row
+		currentTermCounter--;
 	}
 
 //End currentTermCounter loop
