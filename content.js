@@ -84,12 +84,9 @@ for (var currentTermCounter = 0; currentTermCounter < currentTermsList.length; c
 		var currentEntry = currentEntry.replace("the ", "")
 	}
 
-	// console.log("length= " + currentTermsList[currentTermCounter].innerHTML.length);
-	// console.log("currentEntry= " + currentEntry);
-
 	//Get lower case versions of new entry, to compare later
 	var newEntry = newTerms[newTermCounter][0];
-	// console.log(newEntry);
+	console.log(newEntry);
 	var lowercaseNew = newEntry.toString().toLowerCase();
 
 	// console.log(lowercaseNew);
@@ -101,8 +98,7 @@ for (var currentTermCounter = 0; currentTermCounter < currentTermsList.length; c
 
 	// Insert new entry if appropriate
 	if (lowercaseNew < currentEntry.toLowerCase()) {
-		var parent = currentTermsList[currentTermCounter].parentNode;
-		parent.insertBefore(entryText, currentTermsList[currentTermCounter]);
+		currentTermsList[currentTermCounter - 1].nextSibling.appendChild(entryText);
 		newTermCounter++;
 		//Set up to check if there should be two new terms in a row
 		currentTermCounter--;
