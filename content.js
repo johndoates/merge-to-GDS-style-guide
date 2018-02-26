@@ -98,11 +98,45 @@ for (var currentTermCounter = 0; currentTermCounter < currentTermsList.length; c
 
 	// Insert new entry if appropriate
 	if (lowercaseNew < currentEntry.toLowerCase()) {
-		currentTermsList[currentTermCounter - 1].nextSibling.appendChild(entryText);
+
+		//Deal with current entries which have multiple paragraphs, bullets etc.
+		var x = currentTermsList[currentTermCounter - 1].nextSibling;
+		console.log(x);
+		console.log(x.nodeName);
+		while (x.nodeName != "H2" && x.nodeName != "H3"){
+			if (x.nextSibling == null) {
+				break;
+			}
+			var x = x.nextSibling;
+			console.log(x);
+			console.log(x.parentNode);
+			console.log(x.nodeName);
+		}
+		if (x.nextSibling == null) {
+			x.appendChild(entryText);
+		}
+		else {
+			x.previousSibling.appendChild(entryText);
+		}
 		newTermCounter++;
+
 		//Set up to check if there should be two new terms in a row
 		currentTermCounter--;
+		
 	}
+
+	// Insert before instead of after - problem at end of a letter section
+	// if (lowercaseNew < currentEntry.toLowerCase()) {
+	// 	var parent = currentTermsList[currentTermCounter].parentNode;
+	// 	currentTermsList[currentTermCounter].appendChild(entryText);
+	// 	newTermCounter++;
+	// }
+
+
 
 //End currentTermCounter loop
 }
+
+//Issues
+//1. When a term should appear first in its letter, it instead appears last.
+//2. Content displays incorrectly if current entry has more than one paragraph.
