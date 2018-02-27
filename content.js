@@ -1,3 +1,7 @@
+//Indication that extension is running
+pageTitle = document.getElementById("manual-title"); 
+pageTitle.innerHTML = "Style guide +";
+
 // DWP definitions for style guide
 var newTerms = [
 ["Access to Work","Use plain English. For example, \“money to help you with difficulties at work (known as an ‘Access to Work’ grant)\”."],
@@ -92,10 +96,22 @@ for (var currentTermCounter = 0; currentTermCounter < currentTermsList.length; c
 	console.log(newEntry);
 	var lowercaseNew = newEntry.toString().toLowerCase();
 
-	//Create text of the new entry for the style guide - make this a function and move?
+	//Create text of the new entry for the style guide - make this a function and move? Also find a better way to do the spacing.
 	var entryText = document.createElement("div");
-	entryText.innerHTML = "<h3>" + newTerms[newTermCounter][0] + "</h3>" + "<p>" + newTerms[newTermCounter][1] + "</p>";
+	entryText.innerHTML = "<br>" + "<h3>" + newTerms[newTermCounter][0] + "</h3>" + newTerms[newTermCounter][1];
 	entryText.style.color = "red";
+
+	// More complicated (but more secure?) way to make the new entry
+	// var entryText = document.createElement("h3");
+	// var entryHeadingText = document.createTextNode(newTerms[newTermCounter][0]);
+	// entryText.appendChild(entryHeadingText);
+	// console.log(entryText);
+	// var entryPara = document.createElement("p");
+	// var entryParaText = document.createTextNode (newTerms[newTermCounter][1]);
+	// entryPara.appendChild(entryParaText);
+	// console.log(entryPara);
+	// entryText.appendChild(entryPara);
+	// entryText.style.color = "red";
 
 	// Insert new entry if appropriate
 	if (lowercaseNew < currentEntry.toLowerCase()) {
@@ -109,9 +125,9 @@ for (var currentTermCounter = 0; currentTermCounter < currentTermsList.length; c
 				break;
 			}
 			var x = x.nextSibling;
-			console.log(x);
-			console.log(x.parentNode);
-			console.log(x.nodeName);
+			// console.log(x);
+			// console.log(x.parentNode);
+			// console.log(x.nodeName);
 		}
 		if (x.nextSibling == null) {
 			x.appendChild(entryText);
