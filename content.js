@@ -78,18 +78,19 @@ for (var currentTermCounter = 0; currentTermCounter < currentTermsList.length; c
 		var currentEntry = currentTermsList[currentTermCounter].innerHTML;
 	}
 
-	//Get rid of 'the' from the start of current entry
+	//Get rid of 'the' from the start of current entry. Repeating for capitalised 'The' is pretty clunky!
 	var startofEntry = currentEntry.slice(0,3);
 	if (startofEntry = "the ") {
 		var currentEntry = currentEntry.replace("the ", "")
+	}
+		if (startofEntry = "The ") {
+		var currentEntry = currentEntry.replace("The ", "")
 	}
 
 	//Get lower case versions of new entry, to compare later
 	var newEntry = newTerms[newTermCounter][0];
 	console.log(newEntry);
 	var lowercaseNew = newEntry.toString().toLowerCase();
-
-	// console.log(lowercaseNew);
 
 	//Create text of the new entry for the style guide - make this a function and move?
 	var entryText = document.createElement("div");
@@ -102,7 +103,7 @@ for (var currentTermCounter = 0; currentTermCounter < currentTermsList.length; c
 		//Deal with current entries which have multiple paragraphs, bullets etc.
 		var x = currentTermsList[currentTermCounter - 1].nextSibling;
 		console.log(x);
-		console.log(x.nodeName);
+		console.log("nodeName " + x.nodeName);
 		while (x.nodeName != "H2" && x.nodeName != "H3"){
 			if (x.nextSibling == null) {
 				break;
@@ -121,22 +122,10 @@ for (var currentTermCounter = 0; currentTermCounter < currentTermsList.length; c
 		newTermCounter++;
 
 		//Set up to check if there should be two new terms in a row
-		currentTermCounter--;
-		
+		currentTermCounter--;	
 	}
-
-	// Insert before instead of after - problem at end of a letter section
-	// if (lowercaseNew < currentEntry.toLowerCase()) {
-	// 	var parent = currentTermsList[currentTermCounter].parentNode;
-	// 	currentTermsList[currentTermCounter].appendChild(entryText);
-	// 	newTermCounter++;
-	// }
-
-
-
-//End currentTermCounter loop
 }
 
 //Issues
-//1. When a term should appear first in its letter, it instead appears last.
-//2. Content displays incorrectly if current entry has more than one paragraph.
+//1. If the first term in a section is an acronym, it sends the new term to the end of the section.
+//2. 'The Queen' breaks things.
