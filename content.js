@@ -69,10 +69,12 @@ var currentTermsList = document.querySelectorAll('h2, h3');
 console.log(currentTermsList);
 
 //Set up variable for cycling through new terms
-var newTermCounter = 0;
+var newTermCounter = 0	;
 
 //Start loop of existing terms
 for (var currentTermCounter = 0; currentTermCounter < currentTermsList.length; currentTermCounter++) {
+
+console.log("newEntry = " + newTerms[newTermCounter][0]);
 
 //Get the title of the current entry we're looking at
 	if (currentTermsList[currentTermCounter].id.length == 1) {
@@ -93,44 +95,30 @@ for (var currentTermCounter = 0; currentTermCounter < currentTermsList.length; c
 
 	//Get lower case versions of new entry, to compare later
 	var newEntry = newTerms[newTermCounter][0];
-	console.log(newEntry);
 	var lowercaseNew = newEntry.toString().toLowerCase();
 
-	//Create text of the new entry for the style guide - make this a function and move? Also find a better way to do the spacing.
+	//Create text of the new entry for the style guide - make this a function and move?
 	var entryText = document.createElement("div");
-	entryText.innerHTML = "<br>" + "<h3>" + newTerms[newTermCounter][0] + "</h3>" + newTerms[newTermCounter][1];
+	entryText.innerHTML = "<p>" + "</p>" + "<h3>" + newTerms[newTermCounter][0] + "</h3>" + "<p>" + newTerms[newTermCounter][1] + "</p>";
 	entryText.style.color = "red";
 
-	// More complicated (but more secure?) way to make the new entry
-	// var entryText = document.createElement("h3");
-	// var entryHeadingText = document.createTextNode(newTerms[newTermCounter][0]);
-	// entryText.appendChild(entryHeadingText);
-	// console.log(entryText);
-	// var entryPara = document.createElement("p");
-	// var entryParaText = document.createTextNode (newTerms[newTermCounter][1]);
-	// entryPara.appendChild(entryParaText);
-	// console.log(entryPara);
-	// entryText.appendChild(entryPara);
-	// entryText.style.color = "red";
-
 	// Insert new entry if appropriate
+	console.log(lowercaseNew < currentEntry.toLowerCase());
 	if (lowercaseNew < currentEntry.toLowerCase()) {
 
 		//Deal with current entries which have multiple paragraphs, bullets etc.
 		var x = currentTermsList[currentTermCounter - 1].nextSibling;
 		console.log(x);
-		console.log("nodeName " + x.nodeName);
 		while (x.nodeName != "H2" && x.nodeName != "H3"){
+		console.log("nodeName " + x.nodeName);
 			if (x.nextSibling == null) {
 				break;
 			}
 			var x = x.nextSibling;
-			// console.log(x);
-			// console.log(x.parentNode);
-			// console.log(x.nodeName);
 		}
 		if (x.nextSibling == null) {
-			x.appendChild(entryText);
+			if (x.nodeName == "P") {x.appendChild(entryText)};
+			if (x.nodeName == "DIV") {x.insertBefore(entryText, x.firstChild)};
 		}
 		else {
 			x.previousSibling.appendChild(entryText);
