@@ -1,8 +1,8 @@
-//Indication that extension is running
+//Show extension is running
 pageTitle = document.getElementById("manual-title"); 
 pageTitle.innerHTML = "Style guide +";
 
-// DWP definitions for style guide
+// DWP definitions to merge into GDS style guide
 var newTerms = [
 ["Access to Work","Use plain English. For example, \“money to help you with difficulties at work (known as an ‘Access to Work’ grant)\”."],
 ["account (UC)","Claimants create an account as part of the application process."],
@@ -64,27 +64,25 @@ var newTerms = [
 ["work coach","Someone who works in a jobcentre. They help claimants to find work. Don’t capitalise except when used as an individual job title."]
 ];
 
-//Get a list of all the H3s (current terms)
+//Get a list of all the H2s (alphabetical section headers) and H3s (headings for current entries)
 var currentTermsList = document.querySelectorAll('h2, h3');
 console.log(currentTermsList);
 
 //Set up variable for cycling through new terms
-var newTermCounter = 0	;
+var newTermCounter = 0;
 
-//Start loop of existing terms
+//Start loop of section headers and current terms
 for (var currentTermCounter = 0; currentTermCounter < currentTermsList.length; currentTermCounter++) {
 
-console.log("newEntry = " + newTerms[newTermCounter][0]);
-
-//Get the title of the current entry we're looking at
-	if (currentTermsList[currentTermCounter].id.length == 1) {
+//Get either the letter of the section header or the title of the entry
+	if (currentTermsList[currentTermCounter].nodeName == "DIV") {
 		var currentEntry = currentTermsList[currentTermCounter].id;
 	}
 	else {
 		var currentEntry = currentTermsList[currentTermCounter].innerHTML;
 	}
 
-	//Get rid of 'the' from the start of current entry. Repeating for capitalised 'The' is pretty clunky!
+	//Get rid of 'the' or 'The' from the start of current entry
 	var startofEntry = currentEntry.slice(0,3);
 	if (startofEntry = "the ") {
 		var currentEntry = currentEntry.replace("the ", "")
@@ -94,42 +92,39 @@ console.log("newEntry = " + newTerms[newTermCounter][0]);
 	}
 
 	//Get lower case versions of new entry, to compare later
-	var newEntry = newTerms[newTermCounter][0];
-	var lowercaseNew = newEntry.toString().toLowerCase();
+	var lowercaseNew = newTerms[newTermCounter][0].toString().toLowerCase();
 
-	//Create text of the new entry for the style guide - make this a function and move?
+	//Create text of the new entry for the style guide
 	var entryText = document.createElement("div");
 	entryText.innerHTML = "<p>" + "</p>" + "<h3>" + newTerms[newTermCounter][0] + "</h3>" + "<p>" + newTerms[newTermCounter][1] + "</p>";
 	entryText.style.color = "red";
 
 	// Insert new entry if appropriate
-	console.log(lowercaseNew < currentEntry.toLowerCase());
 	if (lowercaseNew < currentEntry.toLowerCase()) {
 
 		//Deal with current entries which have multiple paragraphs, bullets etc.
 		var x = currentTermsList[currentTermCounter - 1].nextSibling;
-		console.log(x);
 		while (x.nodeName != "H2" && x.nodeName != "H3"){
-		console.log("nodeName " + x.nodeName);
+			//Stop advancing through nodes if it's the last sibling
 			if (x.nextSibling == null) {
 				break;
 			}
+			//Advance through nodes
 			var x = x.nextSibling;
 		}
+		//Append new entries which are the first or last siblings
 		if (x.nextSibling == null) {
 			if (x.nodeName == "P") {x.appendChild(entryText)};
 			if (x.nodeName == "DIV") {x.insertBefore(entryText, x.firstChild)};
 		}
+		//Append other new entries
 		else {
 			x.previousSibling.appendChild(entryText);
 		}
+		//Move on to the next DWP term
 		newTermCounter++;
 
 		//Set up to check if there should be two new terms in a row
 		currentTermCounter--;	
 	}
 }
-
-//Issues
-//1. If the first term in a section is an acronym, it sends the new term to the end of the section.
-//2. 'The Queen' breaks things.
