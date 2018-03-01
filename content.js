@@ -74,8 +74,6 @@ var newTermCounter = 0	;
 //Start loop of existing terms
 for (var currentTermCounter = 0; currentTermCounter < currentTermsList.length; currentTermCounter++) {
 
-console.log("newEntry = " + newTerms[newTermCounter][0]);
-
 //Get the title of the current entry we're looking at
 	if (currentTermsList[currentTermCounter].id.length == 1) {
 		var currentEntry = currentTermsList[currentTermCounter].id;
@@ -103,25 +101,26 @@ console.log("newEntry = " + newTerms[newTermCounter][0]);
 	entryText.style.color = "red";
 
 	// Insert new entry if appropriate
-	console.log(lowercaseNew < currentEntry.toLowerCase());
 	if (lowercaseNew < currentEntry.toLowerCase()) {
 
 		//Deal with current entries which have multiple paragraphs, bullets etc.
 		var x = currentTermsList[currentTermCounter - 1].nextSibling;
-		console.log(x);
 		while (x.nodeName != "H2" && x.nodeName != "H3"){
-		console.log("nodeName " + x.nodeName);
 			if (x.nextSibling == null) {
 				break;
 			}
 			var x = x.nextSibling;
 		}
+		console.log(newTerms[newTermCounter][0]);
+		console.log(x.nodeName);
+		console.log(x.previousSibling.nodeName);
 		if (x.nextSibling == null) {
 			if (x.nodeName == "P") {x.appendChild(entryText)};
 			if (x.nodeName == "DIV") {x.insertBefore(entryText, x.firstChild)};
 		}
 		else {
-			x.previousSibling.appendChild(entryText);
+			if (x.previousSibling.nodeName == "UL") {x.insertBefore(entryText, x.firstChild)}
+			else {x.previousSibling.appendChild(entryText)};
 		}
 		newTermCounter++;
 
