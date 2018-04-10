@@ -2,7 +2,7 @@
 
 This Chrome extension holds a set of style guide terms and definitions in an array. When you view the GDS style guide with the extension running, the new style guide terms are merged into the existing GDS style guide.
 
-The new terms appear in red and in the correct alphabetical order. You can tell the extension is running because the 'Style guide' heading becomes 'Style guide +'.
+The new terms appear in red and in the correct alphabetical order. You can tell the extension is running because the 'Style guide' heading becomes 'GDS and DWP style guide'.
 
 ## Installing the extension
 
